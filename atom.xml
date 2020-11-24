@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://xujiasci.github.io</id>
     <title>xujiasci</title>
-    <updated>2020-11-24T06:09:44.250Z</updated>
+    <updated>2020-11-24T11:48:05.221Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://xujiasci.github.io"/>
     <link rel="self" href="https://xujiasci.github.io/atom.xml"/>
@@ -10,4 +10,30 @@
     <logo>https://xujiasci.github.io/images/avatar.png</logo>
     <icon>https://xujiasci.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, xujiasci</rights>
+    <entry>
+        <title type="html"><![CDATA[quic握手]]></title>
+        <id>https://xujiasci.github.io/post/quic-wo-shou/</id>
+        <link href="https://xujiasci.github.io/post/quic-wo-shou/">
+        </link>
+        <updated>2020-11-24T07:03:25.000Z</updated>
+        <content type="html"><![CDATA[<ol>
+<li>客户端连接服务器的第一个Initial packet，其设置了dst connection ID</li>
+<li>服务器随后发送的Initial packet则设置了src connection ID</li>
+<li>后续所有客户端发送的packet都设置相应的dst connection ID</li>
+<li>客户端第一个Initial packet设置的dst connection ID决定了 Initial packets的保护密码</li>
+<li>后续只能通过帧来改变src connection ID</li>
+</ol>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[quic协议]]></title>
+        <id>https://xujiasci.github.io/post/quic-xie-yi/</id>
+        <link href="https://xujiasci.github.io/post/quic-xie-yi/">
+        </link>
+        <updated>2020-11-24T06:13:48.000Z</updated>
+        <content type="html"><![CDATA[<p>从今天开始，每几天写一篇博客来记录对quic协议的学习，以期巩固学习效果。在后续理解不断加深后，会修改这些文章。</p>
+<p>以下是quic协议的主要内容。</p>
+<figure data-type="image" tabindex="1"><img src="https://xujiasci.github.io/post-images/1606198595504.png" alt="" loading="lazy"></figure>
+]]></content>
+    </entry>
 </feed>
