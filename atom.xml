@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://xujiasci.github.io</id>
     <title>xujiasci</title>
-    <updated>2020-11-24T11:51:08.110Z</updated>
+    <updated>2020-11-25T09:37:38.922Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://xujiasci.github.io"/>
     <link rel="self" href="https://xujiasci.github.io/atom.xml"/>
@@ -10,6 +10,31 @@
     <logo>https://xujiasci.github.io/images/avatar.png</logo>
     <icon>https://xujiasci.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, xujiasci</rights>
+    <entry>
+        <title type="html"><![CDATA[高丢包率情况下连接断开原因探究]]></title>
+        <id>https://xujiasci.github.io/post/gao-diu-bao-lu-qing-kuang-xia-lian-jie-duan-kai-yuan-yin-tan-jiu/</id>
+        <link href="https://xujiasci.github.io/post/gao-diu-bao-lu-qing-kuang-xia-lian-jie-duan-kai-yuan-yin-tan-jiu/">
+        </link>
+        <updated>2020-11-25T09:34:29.000Z</updated>
+        <content type="html"><![CDATA[<p>现象：在手动设置的丢包率达到23%的时候，数据传输了一端时间，客户端与服务器之间的连接就会断开。<br>
+原因分析：</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[关闭连接]]></title>
+        <id>https://xujiasci.github.io/post/guan-bi-lian-jie/</id>
+        <link href="https://xujiasci.github.io/post/guan-bi-lian-jie/">
+        </link>
+        <updated>2020-11-25T02:29:39.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="三种方式可能使得连接关闭">三种方式可能使得连接关闭</h1>
+<ol>
+<li>idle timeout</li>
+<li>immediate close</li>
+<li>stateless reset</li>
+</ol>
+<h1 id="idle-timeout">idle timeout</h1>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[quic握手]]></title>
         <id>https://xujiasci.github.io/post/quic-wo-shou/</id>
