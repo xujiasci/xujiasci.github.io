@@ -5,7 +5,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>
-    quic握手 | xujiasci
+    丢包检测 | xujiasci
 </title>
 <link rel="shortcut icon" href="https://xujiasci.github.io/favicon.ico?v=1609137903560">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
@@ -106,25 +106,28 @@
                 <div id="content" class="main-container-left">
                     <article class="post i-card">
                         <h2 class="post-title">
-                            quic握手
+                            丢包检测
                         </h2>
                         <div class="post-info">
-                            <time class="post-time">2020-11-24</time>
+                            <time class="post-time">2020-12-15</time>
                             
-                                <a href="https://xujiasci.github.io/tag/UYfXmDjrp/" class="post-tag i-tag
-                            i-tag-">
-                            #quic
-                        </a>
-                                
                         </div>
                         
                                 <div class="post-content">
-                                    <ol>
-<li>客户端连接服务器的第一个Initial packet，其设置了dst connection ID</li>
-<li>服务器随后发送的Initial packet则设置了src connection ID</li>
-<li>后续所有客户端发送的packet都设置相应的dst connection ID</li>
-<li>客户端第一个Initial packet设置的dst connection ID决定了 Initial packets的保护密码</li>
-<li>后续只能通过帧来改变src connection ID</li>
+                                    <h2 id="基于ack的丢包检测"><strong>基于ack的丢包检测</strong></h2>
+<p>发送端发送出了一个数据包，它需要知道这个包的状态，有没有被对方接收。那么发送方如何知道对方有没有成功接收这个数据包呢？显然是需要接收方告诉自己，它目前收到了哪些包。这就是ack。丢包检测即基于ack机制。<br>
+什么样的包会被认为是丢失了呢？从发送方的角度来看，当在某个包（记为p）后面才发的包都已经收到ack了，而仍然没有收到p所对应的ack，就认为这个包丢失了。但是因为底层的IP包走的网络路径可能不同，所以不能简单地将p是为丢失。所以需要增加一定的丢失容忍度，可以从两个方面来，第一，p之后发的k个包都已经收到ack了，第二，距p的发出时刻达到阈值t，并且收到了p之后发出的某个包的ack。满足两个条件中的一个，就可以认为这个包在网络中丢失了。如果p以及其后面发出的包都没有收到ack，超过一定的时间阈值，这就不仅仅是丢包的问题了，而是网络存在问题了。</p>
+<p>k的选取<br>
+根据tcp的经验，最好的值是3。也可以采用一些算法来动态调整这个值获取更好的效果。<br>
+t的选取<br>
+推荐为9/8RTT。可以动态选取，也可以设为固定值。</p>
+<h2 id="probe-timeout"><strong>Probe Timeout</strong></h2>
+<p>probe timeout也是一种丢包检测方法，当发出一个需要ack的包后，就启动一个定时器，设置超时周期t，定时器超时之后，就发送1或者2个PTOpacket。发生一次PTO超时，就将PTO的超时周期翻倍。连续的PTO会导致超时周期超过了idle timeout，导致连接终止。<br>
+t的选取<br>
+包含三个部分，估计的rtt，rtt的误差，ack时延</p>
+<ol>
+<li>已经有了基于ack的丢包检测，为什么还需要PTO？</li>
+<li>发包之后的setLossDetectionAlarm是什么操作？</li>
 </ol>
 
                                 </div>
@@ -133,9 +136,9 @@
                     
                         <div class="next-post">
                             <div class="next">下一篇</div>
-                            <a href="https://xujiasci.github.io/post/quic-xie-yi/">
+                            <a href="https://xujiasci.github.io/post/quic-de-chong-chuan-ji-zhi/">
                                 <h3 class="post-title">
-                                    quic协议
+                                    quic的重传机制
                                 </h3>
                             </a>
                         </div>
@@ -148,32 +151,47 @@
                 <!-- right -->
                 <div id="sidebar" class="main-container-right">
                     
-                                <!-- id-card -->
-                                
-    <div class="id_card i-card">
-        <div class="id_card-avatar" style="background-image: url(https://xujiasci.github.io/images/avatar.png?v=1609137903560)">
-        </div>
-        <h1 class="id_card-title">
-            xujiasci
-        </h1>
-        <h2 class="id_card-description">
-            温故而知新
-        </h2>
-        <!--  -->
-        <div class="id_card-sns">
-            <!-- github -->
-            
-                    <!-- twitter -->
-                    
-                            <!-- weibo -->
-                            
-                                    <!-- facebook -->
-                                    
+                        <!-- toc -->
+                        
+    <div class="toc-card i-card ">
+        <div class="toc-title i-card-title">目录</div>
+        <div class="toc-content">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%9F%BA%E4%BA%8Eack%E7%9A%84%E4%B8%A2%E5%8C%85%E6%A3%80%E6%B5%8B"><strong>基于ack的丢包检测</strong></a></li>
+<li><a href="#probe-timeout"><strong>Probe Timeout</strong></a></li>
+</ul>
+</li>
+</ul>
 
         </div>
+        <script>
+            function locateCatelogList() {
+                /*获取文章目录集合,可通过:header过滤器*/
+                var alis = $('.post-content :header');
+                /*获取侧边栏目录列表集合**/
+                var sidebar_alis = $('.markdownIt-TOC a');
+                /*获取滚动条到顶部的距离*/
+                var scroll_height = $(window).scrollTop();
+                for (var i = 0; i < alis.length; i++) {
+                    /*获取锚点集合中的元素分别到顶点的距离*/
+                    var a_height = $(alis[i]).offset().top;
+                    if (a_height < scroll_height) {
+                        /*高亮显示*/
+                        sidebar_alis.removeClass('on');
+                        $(sidebar_alis[i]).addClass('on');
+                    }
+                }
+            }
+            $(function() {
+                /*绑定滚动事件 */
+                $(window).bind('scroll', locateCatelogList);
+            });
+        </script>
     </div>
     
-                                    
+                            
 
                 </div>
 

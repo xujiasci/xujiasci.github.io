@@ -5,7 +5,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>
-    quic握手 | xujiasci
+    quic的ack机制 | xujiasci
 </title>
 <link rel="shortcut icon" href="https://xujiasci.github.io/favicon.ico?v=1609137903560">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
@@ -106,26 +106,25 @@
                 <div id="content" class="main-container-left">
                     <article class="post i-card">
                         <h2 class="post-title">
-                            quic握手
+                            quic的ack机制
                         </h2>
                         <div class="post-info">
-                            <time class="post-time">2020-11-24</time>
+                            <time class="post-time">2020-11-26</time>
                             
-                                <a href="https://xujiasci.github.io/tag/UYfXmDjrp/" class="post-tag i-tag
-                            i-tag-">
-                            #quic
-                        </a>
-                                
                         </div>
                         
                                 <div class="post-content">
-                                    <ol>
-<li>客户端连接服务器的第一个Initial packet，其设置了dst connection ID</li>
-<li>服务器随后发送的Initial packet则设置了src connection ID</li>
-<li>后续所有客户端发送的packet都设置相应的dst connection ID</li>
-<li>客户端第一个Initial packet设置的dst connection ID决定了 Initial packets的保护密码</li>
-<li>后续只能通过帧来改变src connection ID</li>
+                                    <p>基本原则：</p>
+<ol>
+<li>接收方确认他们收到和处理的每一个包。但是只有收到ack-eliciting的包，才会在期限内发送ACK frame进行确认。</li>
+<li>尽可能进行捎带确认。</li>
+<li>需要均衡确认速率所带来的影响。包括增加接收方负载和提升发送方loss检测准确率。</li>
 </ol>
+<p>接收方通过发送ACK frames去通知发送方哪些包它接收并且处理了的，已经确认了的包是不可撤销的。每个ACK frame只确认它所属包空间中的包。</p>
+<p>ACK帧格式<br>
+<img src="https://xujiasci.github.io/post-images/1606705852873.png" alt="" loading="lazy"></p>
+<p>mvfst的处理<br>
+收到Ack的处理逻辑</p>
 
                                 </div>
                     </article>
@@ -133,9 +132,9 @@
                     
                         <div class="next-post">
                             <div class="next">下一篇</div>
-                            <a href="https://xujiasci.github.io/post/quic-xie-yi/">
+                            <a href="https://xujiasci.github.io/post/guan-bi-lian-jie/">
                                 <h3 class="post-title">
-                                    quic协议
+                                    关闭连接
                                 </h3>
                             </a>
                         </div>

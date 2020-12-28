@@ -7,7 +7,7 @@
 <title>
     xujiasci
 </title>
-<link rel="shortcut icon" href="https://xujiasci.github.io/favicon.ico?v=1606297045787">
+<link rel="shortcut icon" href="https://xujiasci.github.io/favicon.ico?v=1609137903560">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
 <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -27,7 +27,7 @@
     <div class="nav">
         <div class="logo">
             <a href="https://xujiasci.github.io">
-                <img class="avatar" src="https://xujiasci.github.io/images/avatar.png?v=1606297045787" alt="">
+                <img class="avatar" src="https://xujiasci.github.io/images/avatar.png?v=1609137903560" alt="">
             </a>
             <div class="site-title">
                 <h1>
@@ -99,30 +99,120 @@
         
             <article class="post i-card">
                 <h2 class="post-title">
-                    <a href="https://xujiasci.github.io/post/gao-diu-bao-lu-qing-kuang-xia-lian-jie-duan-kai-yuan-yin-tan-jiu/">
-                        高丢包率情况下连接断开原因探究
+                    <a href="https://xujiasci.github.io/post/diu-bao-jian-ce/">
+                        丢包检测
                     </a>
                 </h2>
                 <div class="post-info">
-                    <time class="post-time">2020-11-25</time>
+                    <time class="post-time">2020-12-15</time>
                     
-                        <a href="https://xujiasci.github.io/tag/UYfXmDjrp/" class="post-tag i-tag
-                            i-tag-banana">
-            #quic
-        </a>
-                        
                 </div>
                 <div class="post-article">
                     
                             <div class="post-content">
                                 
                                         <div class="post-content-content">
-                                            现象：在手动设置的丢包率达到23%的时候，数据传输了一端时间，客户端与服务器之间的连接就会断开。
-原因分析：
+                                            基于ack的丢包检测
+发送端发送出了一个数据包，它需要知道这个包的状态，有没有被对方接收。那么发送方如何知道对方有没有成功接收这个数据包呢？显然是需要接收方告诉自己，它目前收到了哪些包。这就是ack。丢包检测即基于ack机制。
+什么样的包会被认为是丢失了呢？从发送方的角度来看，当在某个包（记为p）后面才发的包都已经收到ack了，而仍然没有收到p所对应的ack，就认为这个包丢失了。但是因为底层的IP包走的网络路径可能不同，所以不能简单地将p是为丢失。所以需要增加一定的丢失容忍度，可以从两个方面来，第一，p之后发的k个包都已经收到ack了，第二，距p的发出时刻达到阈值t，并且收到了p之后发出的某个包的ack。满足两个条件中的一个，就可以认为这个包在网络中丢失了。如果p以及其后面发出的包都没有收到ack，超过一定的时间阈值，这就不仅仅是丢包的问题了，而是网络存在问题了。
+k的选取
+根据tcp的经验，最好的值是3。也可以采用一些算法来动态调整这个值获取更好的效果。
+t的选取
+推荐为9/8RTT。可以动态选取，也可以设为固定值。
+Probe Timeout
+probe timeout也是一种丢包检测方法，当发出一个需要ack的包后，就启动一个定时器，设置超时周期t，定时器超时之后，就发送1或者2个PTOpacket。发生一次PTO超时，就将PTO的超时周期翻倍。连续的PTO会导致超时周期超过了idle timeout，导致连接终止。
+t的选取
+包含三个部分，估计的rtt，rtt的误差，ack时延
+
+已经有了基于ack的丢包检测，为什么还需要PTO？
+发包之后的setLossDetectionAlarm是什么操作？
+
 
                                         </div>
                                         
-                                            <a class="btn btn-text" href="https://xujiasci.github.io/post/gao-diu-bao-lu-qing-kuang-xia-lian-jie-duan-kai-yuan-yin-tan-jiu/">Read More ~</a>
+                                            <a class="btn btn-text" href="https://xujiasci.github.io/post/diu-bao-jian-ce/">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
+            <article class="post i-card">
+                <h2 class="post-title">
+                    <a href="https://xujiasci.github.io/post/quic-de-chong-chuan-ji-zhi/">
+                        quic的重传机制
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2020-12-04</time>
+                    
+                </div>
+                <div class="post-article">
+                    
+                            <div class="post-content">
+                                
+                                        <div class="post-content-content">
+                                            待
+
+                                        </div>
+                                        
+                                            <a class="btn btn-text" href="https://xujiasci.github.io/post/quic-de-chong-chuan-ji-zhi/">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
+            <article class="post i-card">
+                <h2 class="post-title">
+                    <a href="https://xujiasci.github.io/post/quic-bao-rong-liang-de-xian-zhi/">
+                        quic包容量的限制
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2020-12-03</time>
+                    
+                </div>
+                <div class="post-article">
+                    
+                            <div class="post-content">
+                                
+                                        <div class="post-content-content">
+                                            待
+
+                                        </div>
+                                        
+                                            <a class="btn btn-text" href="https://xujiasci.github.io/post/quic-bao-rong-liang-de-xian-zhi/">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
+            <article class="post i-card">
+                <h2 class="post-title">
+                    <a href="https://xujiasci.github.io/post/quic-de-ack-ji-zhi/">
+                        quic的ack机制
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2020-11-26</time>
+                    
+                </div>
+                <div class="post-article">
+                    
+                            <div class="post-content">
+                                
+                                        <div class="post-content-content">
+                                            基本原则：
+
+接收方确认他们收到和处理的每一个包。但是只有收到ack-eliciting的包，才会在期限内发送ACK frame进行确认。
+尽可能进行捎带确认。
+需要均衡确认速率所带来的影响。包括增加接收方负载和提升发送方loss检测准确率。
+
+接收方通过发送ACK frames去通知发送方哪些包它接收并且处理了的，已经确认了的包是不可撤销的。每个ACK frame只确认它所属包空间中的包。
+ACK帧格式
+
+mvfst的处理
+收到Ack的处理逻辑
+
+                                        </div>
+                                        
+                                            <a class="btn btn-text" href="https://xujiasci.github.io/post/quic-de-ack-ji-zhi/">Read More ~</a>
                             </div>
                 </div>
             </article>
@@ -167,7 +257,7 @@ idle timeout
                     <time class="post-time">2020-11-24</time>
                     
                         <a href="https://xujiasci.github.io/tag/UYfXmDjrp/" class="post-tag i-tag
-                            i-tag-other_2">
+                            i-tag-success">
             #quic
         </a>
                         
@@ -202,7 +292,7 @@ idle timeout
                     <time class="post-time">2020-11-24</time>
                     
                         <a href="https://xujiasci.github.io/tag/UYfXmDjrp/" class="post-tag i-tag
-                            i-tag-other_3">
+                            i-tag-other_1">
             #quic
         </a>
                         
@@ -234,7 +324,7 @@ idle timeout
                     <!-- 个人信息 -->
                     
     <div class="id_card i-card">
-        <div class="id_card-avatar" style="background-image: url(https://xujiasci.github.io/images/avatar.png?v=1606297045787)">
+        <div class="id_card-avatar" style="background-image: url(https://xujiasci.github.io/images/avatar.png?v=1609137903560)">
         </div>
         <h1 class="id_card-title">
             xujiasci
