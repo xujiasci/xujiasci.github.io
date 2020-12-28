@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://xujiasci.github.io</id>
     <title>xujiasci</title>
-    <updated>2020-12-28T06:45:09.035Z</updated>
+    <updated>2020-12-28T06:46:17.829Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://xujiasci.github.io"/>
     <link rel="self" href="https://xujiasci.github.io/atom.xml"/>
@@ -11,48 +11,7 @@
     <icon>https://xujiasci.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, xujiasci</rights>
     <entry>
-        <title type="html"><![CDATA[丢包检测]]></title>
-        <id>https://xujiasci.github.io/post/diu-bao-jian-ce/</id>
-        <link href="https://xujiasci.github.io/post/diu-bao-jian-ce/">
-        </link>
-        <updated>2020-12-15T02:41:59.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="基于ack的丢包检测"><strong>基于ack的丢包检测</strong></h2>
-<p>发送端发送出了一个数据包，它需要知道这个包的状态，有没有被对方接收。那么发送方如何知道对方有没有成功接收这个数据包呢？显然是需要接收方告诉自己，它目前收到了哪些包。这就是ack。丢包检测即基于ack机制。<br>
-什么样的包会被认为是丢失了呢？从发送方的角度来看，当在某个包（记为p）后面才发的包都已经收到ack了，而仍然没有收到p所对应的ack，就认为这个包丢失了。但是因为底层的IP包走的网络路径可能不同，所以不能简单地将p是为丢失。所以需要增加一定的丢失容忍度，可以从两个方面来，第一，p之后发的k个包都已经收到ack了，第二，距p的发出时刻达到阈值t，并且收到了p之后发出的某个包的ack。满足两个条件中的一个，就可以认为这个包在网络中丢失了。如果p以及其后面发出的包都没有收到ack，超过一定的时间阈值，这就不仅仅是丢包的问题了，而是网络存在问题了。</p>
-<p>k的选取<br>
-根据tcp的经验，最好的值是3。也可以采用一些算法来动态调整这个值获取更好的效果。<br>
-t的选取<br>
-推荐为9/8RTT。可以动态选取，也可以设为固定值。</p>
-<h2 id="probe-timeout"><strong>Probe Timeout</strong></h2>
-<p>probe timeout也是一种丢包检测方法，当发出一个需要ack的包后，就启动一个定时器，设置超时周期t，定时器超时之后，就发送1或者2个PTOpacket。发生一次PTO超时，就将PTO的超时周期翻倍。连续的PTO会导致超时周期超过了idle timeout，导致连接终止。<br>
-t的选取<br>
-包含三个部分，估计的rtt，rtt的误差，ack时延</p>
-<ol>
-<li>已经有了基于ack的丢包检测，为什么还需要PTO？</li>
-<li>发包之后的setLossDetectionAlarm是什么操作？</li>
-</ol>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[quic的重传机制]]></title>
-        <id>https://xujiasci.github.io/post/quic-de-chong-chuan-ji-zhi/</id>
-        <link href="https://xujiasci.github.io/post/quic-de-chong-chuan-ji-zhi/">
-        </link>
-        <updated>2020-12-04T01:30:24.000Z</updated>
-        <content type="html"><![CDATA[<p>待</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[quic包容量的限制]]></title>
-        <id>https://xujiasci.github.io/post/quic-bao-rong-liang-de-xian-zhi/</id>
-        <link href="https://xujiasci.github.io/post/quic-bao-rong-liang-de-xian-zhi/">
-        </link>
-        <updated>2020-12-03T01:40:27.000Z</updated>
-        <content type="html"><![CDATA[<p>待</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[quic的ack机制]]></title>
+        <title type="html"><![CDATA[quic的ack与重传机制]]></title>
         <id>https://xujiasci.github.io/post/quic-de-ack-ji-zhi/</id>
         <link href="https://xujiasci.github.io/post/quic-de-ack-ji-zhi/">
         </link>
@@ -68,21 +27,6 @@ t的选取<br>
 <img src="https://xujiasci.github.io/post-images/1606705852873.png" alt="" loading="lazy"></p>
 <p>mvfst的处理<br>
 收到Ack的处理逻辑</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[关闭连接]]></title>
-        <id>https://xujiasci.github.io/post/guan-bi-lian-jie/</id>
-        <link href="https://xujiasci.github.io/post/guan-bi-lian-jie/">
-        </link>
-        <updated>2020-11-25T02:29:39.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="三种方式可能使得连接关闭">三种方式可能使得连接关闭</h1>
-<ol>
-<li>idle timeout</li>
-<li>immediate close</li>
-<li>stateless reset</li>
-</ol>
-<h1 id="idle-timeout">idle timeout</h1>
 ]]></content>
     </entry>
     <entry>
