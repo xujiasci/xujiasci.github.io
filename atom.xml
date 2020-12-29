@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://xujiasci.github.io</id>
     <title>xujiasci</title>
-    <updated>2020-12-28T06:46:17.829Z</updated>
+    <updated>2020-12-29T06:25:00.957Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://xujiasci.github.io"/>
     <link rel="self" href="https://xujiasci.github.io/atom.xml"/>
@@ -11,12 +11,13 @@
     <icon>https://xujiasci.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, xujiasci</rights>
     <entry>
-        <title type="html"><![CDATA[quic的ack与重传机制]]></title>
+        <title type="html"><![CDATA[quic的ack与丢包检测机制]]></title>
         <id>https://xujiasci.github.io/post/quic-de-ack-ji-zhi/</id>
         <link href="https://xujiasci.github.io/post/quic-de-ack-ji-zhi/">
         </link>
         <updated>2020-11-26T03:11:33.000Z</updated>
-        <content type="html"><![CDATA[<p>基本原则：</p>
+        <content type="html"><![CDATA[<h1 id="ack机制">Ack机制</h1>
+<p>基本原则：</p>
 <ol>
 <li>接收方确认他们收到和处理的每一个包。但是只有收到ack-eliciting的包，才会在期限内发送ACK frame进行确认。</li>
 <li>尽可能进行捎带确认。</li>
@@ -25,8 +26,16 @@
 <p>接收方通过发送ACK frames去通知发送方哪些包它接收并且处理了的，已经确认了的包是不可撤销的。每个ACK frame只确认它所属包空间中的包。</p>
 <p>ACK帧格式<br>
 <img src="https://xujiasci.github.io/post-images/1606705852873.png" alt="" loading="lazy"></p>
-<p>mvfst的处理<br>
-收到Ack的处理逻辑</p>
+<h1 id="丢包检测">丢包检测</h1>
+<p>quic利用ack来进行丢包检测，当一个包发出后，满足以下两条就会认为这个包丢失了。</p>
+<ol>
+<li>这个包没有被确认，但是存在至少一个在其之后发送的且收到了ack的包</li>
+<li>这个包距离发送时刻已达时间t，或者其包序号与最大确认包序号相差大于k</li>
+</ol>
+<p>PTO是一项对丢包检测进行补充的机制。当发出一个包之后，就会为这个包设置一个定时器。收到该包的ack会取消定时器。当定时器超时之后，就是发送超时探测包，这些包可以携带正常的用户数据，如果没有则发送ping。这些探测包必须要能引起对方立即发送ack。</p>
+<p>每收到一个新的ack，可能意味着一些包得到确认，也可能意味着一些包丢失了。<br>
+当收到或者发出ack-clicting包，重设PTO，这使得PTO基于最新的RTT，并且基于最新的发送的包。<br>
+当出现的PTO超时，下一次的PTO时间翻倍。当收到ack后，重置PTO时间。</p>
 ]]></content>
     </entry>
     <entry>

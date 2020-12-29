@@ -7,7 +7,7 @@
 <title>
     xujiasci
 </title>
-<link rel="shortcut icon" href="https://xujiasci.github.io/favicon.ico?v=1609137975474">
+<link rel="shortcut icon" href="https://xujiasci.github.io/favicon.ico?v=1609223095465">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
 <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -27,7 +27,7 @@
     <div class="nav">
         <div class="logo">
             <a href="https://xujiasci.github.io">
-                <img class="avatar" src="https://xujiasci.github.io/images/avatar.png?v=1609137975474" alt="">
+                <img class="avatar" src="https://xujiasci.github.io/images/avatar.png?v=1609223095465" alt="">
             </a>
             <div class="site-title">
                 <h1>
@@ -100,7 +100,7 @@
             <article class="post i-card">
                 <h2 class="post-title">
                     <a href="https://xujiasci.github.io/post/quic-de-ack-ji-zhi/">
-                        quic的ack与重传机制
+                        quic的ack与丢包检测机制
                     </a>
                 </h2>
                 <div class="post-info">
@@ -112,7 +112,8 @@
                             <div class="post-content">
                                 
                                         <div class="post-content-content">
-                                            基本原则：
+                                            Ack机制
+基本原则：
 
 接收方确认他们收到和处理的每一个包。但是只有收到ack-eliciting的包，才会在期限内发送ACK frame进行确认。
 尽可能进行捎带确认。
@@ -121,8 +122,16 @@
 接收方通过发送ACK frames去通知发送方哪些包它接收并且处理了的，已经确认了的包是不可撤销的。每个ACK frame只确认它所属包空间中的包。
 ACK帧格式
 
-mvfst的处理
-收到Ack的处理逻辑
+丢包检测
+quic利用ack来进行丢包检测，当一个包发出后，满足以下两条就会认为这个包丢失了。
+
+这个包没有被确认，但是存在至少一个在其之后发送的且收到了ack的包
+这个包距离发送时刻已达时间t，或者其包序号与最大确认包序号相差大于k
+
+PTO是一项对丢包检测进行补充的机制。当发出一个包之后，就会为这个包设置一个定时器。收到该包的ack会取消定时器。当定时器超时之后，就是发送超时探测包，这些包可以携带正常的用户数据，如果没有则发送ping。这些探测包必须要能引起对方立即发送ack。
+每收到一个新的ack，可能意味着一些包得到确认，也可能意味着一些包丢失了。
+当收到或者发出ack-clicting包，重设PTO，这使得PTO基于最新的RTT，并且基于最新的发送的包。
+当出现的PTO超时，下一次的PTO时间翻倍。当收到ack后，重置PTO时间。
 
                                         </div>
                                         
@@ -141,7 +150,7 @@ mvfst的处理
                     <time class="post-time">2020-11-24</time>
                     
                         <a href="https://xujiasci.github.io/tag/UYfXmDjrp/" class="post-tag i-tag
-                            i-tag-info">
+                            i-tag-other_3">
             #quic
         </a>
                         
@@ -176,7 +185,7 @@ mvfst的处理
                     <time class="post-time">2020-11-24</time>
                     
                         <a href="https://xujiasci.github.io/tag/UYfXmDjrp/" class="post-tag i-tag
-                            i-tag-other_2">
+                            i-tag-warning">
             #quic
         </a>
                         
@@ -208,7 +217,7 @@ mvfst的处理
                     <!-- 个人信息 -->
                     
     <div class="id_card i-card">
-        <div class="id_card-avatar" style="background-image: url(https://xujiasci.github.io/images/avatar.png?v=1609137975474)">
+        <div class="id_card-avatar" style="background-image: url(https://xujiasci.github.io/images/avatar.png?v=1609223095465)">
         </div>
         <h1 class="id_card-title">
             xujiasci
