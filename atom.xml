@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://xujiasci.github.io</id>
+    <title>xujiasci</title>
+    <updated>2022-06-06T02:04:43.098Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://xujiasci.github.io"/>
+    <link rel="self" href="https://xujiasci.github.io/atom.xml"/>
+    <subtitle>温故而知新</subtitle>
+    <logo>https://xujiasci.github.io/images/avatar.png</logo>
+    <icon>https://xujiasci.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2022, xujiasci</rights>
+</feed>
